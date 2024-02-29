@@ -54,6 +54,10 @@ public class ResponseEntityTestController {
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("user", foundUser);
 
+//        ResponseEntity
+//        responseMessage => body
+//        headers => headers
+//        HttpStatus.ok => ok
         /* 설명. builder 패턴 */
         return ResponseEntity
                 .ok()
@@ -83,6 +87,25 @@ public class ResponseEntityTestController {
 
         return ResponseEntity
                 .created(URI.create("/entity/users" + users.get(users.size() - 1).getNo()))
+                .build();
+    }
+
+    @PutMapping("/users/{userNo}")
+    public ResponseEntity<?> modifyUser(@RequestBody UserDTO modifyInfo, @PathVariable int userNo) {
+
+        /* 설명. PathVariable로 넘어온 번호와 일치하는 회원 한명 추출 */
+        UserDTO foundUser =
+                users.stream().filter(user -> user.getNo() == userNo)
+                        .collect(Collectors.toList())
+                        .get(0);
+
+        /* 설명. 사용자가 넘겨준 수정하고자 하는 데이터로 회원 정보를 수정 */
+        foundUser.setId(modifyInfo.getId());
+        foundUser.setPwd(modifyInfo.getPwd());
+        foundUser.setName(modifyInfo.getName());
+
+        return ResponseEntity
+                .created(URI.create("/entity/users" +userNo))
                 .build();
     }
 }

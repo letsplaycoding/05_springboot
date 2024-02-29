@@ -18,3 +18,17 @@ Content-Type: application/json
 ### GET request user
 GET localhost:8080/entity/users/4
 
+### PUT modify user
+PUT localhost:8080/entity/users/4
+Content-Type: application/json
+
+{
+   "id":"user05",
+   "pwd":"pass05",
+   "name":"카아안"
+}
+
+### GET modify user
+GET localhost:8080/entity/users/4
+
+
