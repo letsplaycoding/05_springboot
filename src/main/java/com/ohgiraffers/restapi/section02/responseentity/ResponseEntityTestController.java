@@ -108,4 +108,19 @@ public class ResponseEntityTestController {
                 .created(URI.create("/entity/users" +userNo))
                 .build();
     }
+
+    @DeleteMapping("/users/{userNo}")
+    public ResponseEntity<?> removeUser(@PathVariable int userNo) {
+
+        UserDTO foundUser =
+                users.stream().filter(user -> user.getNo() == userNo)
+                        .collect(Collectors.toList())
+                        .get(0);
+
+        /* 설명. ArrayList에서 제공하는 remove는 인덱스 대신 자신이 관리하는 객체를 찾아서 지워주기도 한다. */
+        users.remove(foundUser);
+
+        return ResponseEntity
+                .noContent().build();
+    }
 }
